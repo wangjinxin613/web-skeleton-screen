@@ -1,0 +1,37 @@
+{
+  "name": "web-skeleton-screen",
+  "version": "0.0.1",
+  "description": "自动生成骨架屏",
+  "main": "src",
+  "bin": {
+    "wss": "bin/wss-cli.js"
+  },
+  "author": "wangjinxin",
+  "scripts": {
+    "start": "node ./bin/wss-cli.js start"
+  },
+  "puppeteer_version": "1.7.0",
+  "app": {
+    "alias": "wss"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.18.0",
+    "cross-env": "^5.2.0",
+    "fast-install-puppeteer": "^1.0.5",
+    "node-emoji": "^1.8.1",
+    "ora": "^3.0.0",
+    "prompts": "^1.1.0"
+  },
+  "keywords": [
+    "web skeleton screen",
+    "skeleton screen",
+    "skeleton",
+    "loading",
+    "prerender"
+  ],
+  "devDependencies": {
+    "mkdirp": "^1.0.4"
+  }
+}
