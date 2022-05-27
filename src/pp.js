@@ -8,8 +8,7 @@ const devices = {
 };
 
 async function pp({device = 'mobile', headless = true}) {
-  const browser = await ppteer.launch({headless});
-  
+  const browser = await ppteer.launch({headless, handleSIGINT: true, ignoreHTTPSErrors: true});
   async function openPage(url, extraHTTPHeaders) {
     const page = await browser.newPage();
     try {

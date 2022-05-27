@@ -48,7 +48,7 @@ class DrawPageStructure {
     }
     if (filepath) {
       if (!fs.existsSync(path.join(currDir, filepath))) {
-        log.error('[output.filepath:404] please provide the output filepath !', 1);
+        // log.error('[output.filepath:404] please provide the output filepath !', 1);
         fs.mkdirSync(path.join(currDir, filepath))
       }
     }
@@ -100,32 +100,32 @@ class DrawPageStructure {
     if(!fs.existsSync(dirName)){ 
       await mkdirp(dirName);
     }
-    if(fs.existsSync(filepath)) {
-      let fileHTML = fs.readFileSync(filepath);
-      let $ = cheerio.load(fileHTML, {
-        decodeEntities: false
-      });
-      $(this.injectSelector).html(html);
-      fs.writeFileSync(filepath, $.html('html'));
-    } else {
+    // if(fs.existsSync(filepath)) {
+    //   let fileHTML = fs.readFileSync(filepath);
+    //   let $ = cheerio.load(fileHTML, {
+    //     decodeEntities: false
+    //   });
+    //   $(this.injectSelector).html(html);
+    //   fs.writeFileSync(filepath, $.html('html'));
+    // } else {
       fs.writeFileSync(filepath, html);
-    }
+    // }
   }
   // 针对每一个页面的配置
-  pageDeal(route = {}) {
+  pageDeal(routePath) {
     return new Promise(async (resolve, reject) => {
       try {
         const { spinner, pp } = this;
-        if (!route.path || route.path === '') {
+        if (!routePath || routePath === '') {
           log.error('please provide the path !', 1);
           resolve(false);
         }
-        const pageUrl = this.baseUrl + (route?.path ?? '');
+        const pageUrl = this.baseUrl + routePath;
         spinner.text = `正在打开页面：${pageUrl}...`;
         const page = await pp.openPage(pageUrl, this.extraHTTPHeaders);
         spinner.text = '正在生成骨架屏...';
         const html = await this.generateSkeletonHTML(page);
-        const resFilePath = path.join(currDir, this.filepath + route?.path + '.html');
+        const resFilePath = path.join(currDir, this.filepath + routePath + '.html');
         if (this.filepath) {
           spinner.text = `正在写入骨架屏代码到文件：${resFilePath}...`;
           await this.writeToFilepath(resFilePath, html);

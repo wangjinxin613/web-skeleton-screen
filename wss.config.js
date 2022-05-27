@@ -39,35 +39,8 @@ const config = {
   init: function () {
     // document.querySelectorAll('.m-icon').forEach(item => item.parentNode.removeChild(item));
     // 生成骨架屏之前的操作，比如删除干扰节点
-  }
+  },
+  routes: [ "/invitation/invitationTest", "/member/MemberHelpNotesItem"]
 }
-
-const routes = [
-  { 
-    "path": "/invitation/invitationTest", 
-    "name": "任务", 
-    "meta": { "title": "Tarefa" }, 
-    "props": { "default": false }, 
-    "children": [], 
-    "instances": {}, 
-    "leaveGuards": {}, 
-    "updateGuards": {}, 
-    "enterCallbacks": {}, 
-    "components": {} 
-  }, 
-  { 
-    "path": "/member/MemberHelpNotesItem", 
-    "name": "邀请好友", 
-    "meta": { "title": "Lista de visitantes" }, 
-    "props": { "default": false }, 
-    "children": [],
-    "instances": {}, 
-    "leaveGuards": {}, 
-    "updateGuards": {}, 
-    "enterCallbacks": {},
-    "components": {} 
-  }];
-
-config.routes = routes;
 
 module.exports = config;
