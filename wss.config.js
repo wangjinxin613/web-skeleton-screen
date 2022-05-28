@@ -4,7 +4,7 @@ const config = {
     filepath: 'out',   // 生成骨架屏的存放文件夹名称
     injectSelector: '#app'  // 生成的骨架屏插入页面的节点
   },
-  headless: false,
+  headless: true,
   // header: {
   //   height: 40,
   //   background: '#3388ff'

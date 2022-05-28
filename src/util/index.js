@@ -10,14 +10,16 @@ const outputSkeletonScreen = async (originHtml, options, log) => {
   const { pathname, staticDir, routes } = options
   return Promise.all(routes.map(async (route) => {
     const filePath = path.join(pathname, `${route}.html`)
-    const html = await promisify(fs.readFile)(filePath, 'utf-8')
-    const finalHtml = htmlMerge(originHtml, html);
-    const outputDir = path.join(staticDir, route)
-    const outputFile = path.join(outputDir, 'index.html')
-    if(finalHtml !== '') {
-      await fse.ensureDir(outputDir)
-      await promisify(fs.writeFile)(outputFile, finalHtml, 'utf-8')
-      log(`write ${outputFile} successfully in ${route}`)
+    if(fs.existsSync(filePath)) {
+      const html = await promisify(fs.readFile)(filePath, 'utf-8')
+      const finalHtml = htmlMerge(originHtml, html);
+      const outputDir = path.join(staticDir, route)
+      const outputFile = path.join(outputDir, 'index.html')
+      if(finalHtml !== '') {
+        await fse.ensureDir(outputDir)
+        await promisify(fs.writeFile)(outputFile, finalHtml, 'utf-8')
+        log.info(`write ${outputFile} successfully in ${route}`)
+      }
     }
     return Promise.resolve()
   }))

@@ -8,7 +8,7 @@
   },
   "author": "wangjinxin",
   "scripts": {
-    "start": "node ./bin/wss-cli.js start"
+    "start": "node ./bin/wss-cli.js start -c wss.config.js"
   },
   "puppeteer_version": "1.7.0",
   "app": {
@@ -23,7 +23,8 @@
     "fs-extra": "^10.1.0",
     "node-emoji": "^1.8.1",
     "ora": "^3.0.0",
-    "prompts": "^1.1.0"
+    "prompts": "^1.1.0",
+    "webpack-log": "^3.0.2"
   },
   "keywords": [
     "web skeleton screen",
