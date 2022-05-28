@@ -8,7 +8,7 @@ const devices = {
 };
 
 async function pp({device = 'mobile', headless = true}) {
-  const browser = await ppteer.launch({headless, handleSIGINT: true, ignoreHTTPSErrors: true});
+  const browser = await ppteer.launch({headless});
   async function openPage(url, extraHTTPHeaders) {
     const page = await browser.newPage();
     try {
@@ -24,7 +24,7 @@ async function pp({device = 'mobile', headless = true}) {
         waitUntil: 'networkidle0'
       });
     } catch (e) {
-      console.log('\n');
+      log.error('打开一个新页面失败'+ url +'\n');
       log.error(e.message);
     }
     return page;

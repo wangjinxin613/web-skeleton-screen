@@ -40,7 +40,26 @@ const config = {
     // document.querySelectorAll('.m-icon').forEach(item => item.parentNode.removeChild(item));
     // 生成骨架屏之前的操作，比如删除干扰节点
   },
-  routes: [ "/invitation/invitationTest", "/member/MemberHelpNotesItem"]
+  routes: [
+    '/task/taskIndex', 
+    '/invitation/InvitationIndex', 
+    '/invitation/InvitationBindCode', 
+    '/invitation/InvitationDetail', 
+    '/invitation/invitationFriendGoOnlineWindow', 
+    '/invitation/invitationTreasureWindow', 
+    '/invitation/invitationYesterdayIncomeWindow', 
+    '/aihelp/AiHelpShowConversation', 
+    '/aihelp/AiHelpShowFAQ', 
+    '/aihelp/AiHelp', 
+    '/strategy/strategyIndex', 
+    '/member/MemberIndex', 
+    '/member/MemberGiftIndex', 
+    '/member/MemberGiftUserRecordsItem', 
+    '/member/MemberGiftRecordsItem', 
+    '/member/MemberHelpNotesItem', 
+    '/invitation/invitationTest', 
+    '/member/MemberProtoTest'
+  ]
 }
 
 module.exports = config;

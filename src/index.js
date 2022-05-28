@@ -92,12 +92,12 @@ class DrawPageStructure {
   }
   async writeToFilepath(filepath, html) {
     let dirName = '';
-    for(let item of filepath.split('/')) {
+    for (let item of filepath.split('/')) {
       if (item.indexOf('.') === -1) {
         dirName += item + '/';
       }
     }
-    if(!fs.existsSync(dirName)){ 
+    if (!fs.existsSync(dirName)) {
       await mkdirp(dirName);
     }
     // if(fs.existsSync(filepath)) {
@@ -108,31 +108,38 @@ class DrawPageStructure {
     //   $(this.injectSelector).html(html);
     //   fs.writeFileSync(filepath, $.html('html'));
     // } else {
-      fs.writeFileSync(filepath, html);
+    fs.writeFileSync(filepath, html);
     // }
   }
   // 针对每一个页面的配置
   pageDeal(routePath) {
     return new Promise(async (resolve, reject) => {
       try {
-        const { spinner, pp } = this;
+        const { pp } = this;
         if (!routePath || routePath === '') {
           log.error('please provide the path !', 1);
           resolve(false);
         }
+        const spinner = Spinner('magentaBright');
         const pageUrl = this.baseUrl + routePath;
         spinner.text = `正在打开页面：${pageUrl}...`;
-        const page = await pp.openPage(pageUrl, this.extraHTTPHeaders);
+        let page = await pp.openPage(pageUrl, this.extraHTTPHeaders);
         spinner.text = '正在生成骨架屏...';
         const html = await this.generateSkeletonHTML(page);
         const resFilePath = path.join(currDir, this.filepath + routePath + '.html');
-        if (this.filepath) {
+        if (this.filepath && html !== '') {
           spinner.text = `正在写入骨架屏代码到文件：${resFilePath}...`;
           await this.writeToFilepath(resFilePath, html);
         }
         spinner.clear().succeed(`skeleton screen has created and output to ${calcText(resFilePath)}`);
+        if (!this.headless) {
+          await this.delay(2000);
+        }
+        await page.close();
+        await this.delay(200);
         resolve(true);
       } catch (error) {
+        console.log(`${routePath}生成骨架屏失败`);
         console.log(error);
         resolve(false)
       }
@@ -142,30 +149,42 @@ class DrawPageStructure {
   async start() {
     try {
       const { routes } = this;
-      const spinner = Spinner('magentaBright');
-      this.spinner = spinner;
-      spinner.text = '启动浏览器...';
+      // const spinner = Spinner('magentaBright');
+      // this.spinner = spinner;
+      // spinner.text = '启动浏览器...';
       const pp = await ppteer({
         device: this.device,
         headless: this.headless
       });
       this.pp = pp;
       if (Array.isArray(routes) && routes.length > 0) {
-        await Promise.all(
-          routes.map(route => {
-            return this.pageDeal(route);
-          })
-        )
+        // if (this.headless) {
+        //   await Promise.all(
+        //     routes.map(route => {
+        //       return this.pageDeal(route);
+        //     })
+        //   )
+        // } else {
+          for (let route of routes) {
+            await this.pageDeal(route);
+          }
+        // }
       }
-      if (this.headless) {
-        await pp.browser.close();
-        process.exit(0);
-      }
+      console.log('全部任务完成，关闭浏览器');
+      await pp.browser.close();
+      process.exit(0);
     } catch (error) {
-      console.log(error);
       // this.pp.browser.close();
       process.exit(0);
     }
+  }
+
+  delay(time) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, time)
+    })
   }
 }
 
