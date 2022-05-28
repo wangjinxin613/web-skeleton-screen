@@ -5,9 +5,9 @@ module.exports = function evalDOM() {
   const win_h = window.innerHeight;
 
   let agrsArr = arguments;
-  if (!agrsArr.length) agrsArr = {length: 1, 0: {}};
+  if (!agrsArr.length) agrsArr = { length: 1, 0: {} };
   let agrs = agrsArr[0];
-  
+
   if (agrsArr.length !== 1 || getArgtype(agrs) !== 'object') {
     agrs = parseAgrs([...agrsArr]);
   }
@@ -23,7 +23,7 @@ module.exports = function evalDOM() {
 
   createCommonClass(classProps);
 
-  function drawBlock({width, height, top, left, zIndex = 999, background = agrs.background, radius, subClas} = {}) {
+  function drawBlock({ width, height, top, left, zIndex = 999, background = agrs.background, radius, subClas } = {}) {
     const styles = ['height:' + height + '%'];
 
     if (!subClas) {
@@ -45,12 +45,12 @@ module.exports = function evalDOM() {
   function wPercent(x) {
     return parseFloat(x / win_w * 100).toFixed(3);
   }
-  
+
   function hPercent(x) {
     return parseFloat(x / win_h * 100).toFixed(3);
   }
 
-  function noop() {}
+  function noop() { }
 
   function getArgtype(arg) {
     return Object.prototype.toString.call(arg).toLowerCase().match(/\s(\w+)/)[1];
@@ -63,10 +63,10 @@ module.exports = function evalDOM() {
   function getRootNode(el) {
     if (!el) return el;
     return typeof el === 'object' ?
-            el:
-            (getArgtype(el) === 'string' ?
-            document.querySelector(el):
-            null);
+      el :
+      (getArgtype(el) === 'string' ?
+        document.querySelector(el) :
+        null);
   }
 
   function includeElement(elements, node) {
@@ -74,10 +74,10 @@ module.exports = function evalDOM() {
   }
 
   function isHideStyle(node) {
-    return getStyle(node, 'display') === 'none' || 
-        getStyle(node, 'visibility') === 'hidden' || 
-        getStyle(node, 'opacity') == 0 ||
-        node.hidden;
+    return getStyle(node, 'display') === 'none' ||
+      getStyle(node, 'visibility') === 'hidden' ||
+      getStyle(node, 'opacity') == 0 ||
+      node.hidden;
   }
 
   function isCustomCardBlock(node) {
@@ -88,12 +88,12 @@ module.exports = function evalDOM() {
     const hasNoBorder = ['top', 'left', 'right', 'bottom'].some(item => {
       return bdReg.test(getStyle(node, 'border-' + item));
     });
-    const {w, h} = getRect(node);
-    const customCardBlock = !!(hasBgColor && (!hasNoBorder || getStyle(node, 'box-shadow') != 'none') && w > 0 && h > 0 && w < 0.95*win_w && h < 0.3*win_h);
+    const { w, h } = getRect(node);
+    const customCardBlock = !!(hasBgColor && (!hasNoBorder || getStyle(node, 'box-shadow') != 'none') && w > 0 && h > 0 && w < 0.95 * win_w && h < 0.3 * win_h);
     return customCardBlock;
   }
 
-  function calcTextWidth(text, {fontSize, fontWeight} = {}) {
+  function calcTextWidth(text, { fontSize, fontWeight } = {}) {
     if (!text) return 0;
 
     const div = document.createElement('div');
@@ -101,7 +101,7 @@ module.exports = function evalDOM() {
     div.style.cssText = [
       'position:absolute',
       'left:-99999px',
-	    `height:${fontSize}`,
+      `height:${fontSize}`,
       `font-size:${fontSize}`,
       `font-weight:${fontWeight}`,
       'opacity:0'
@@ -119,7 +119,7 @@ module.exports = function evalDOM() {
   function getRect(node) {
     if (!node) return {};
     const { top: t, left: l, width: w, height: h } = node.getBoundingClientRect();
-    return {t, l, w, h};
+    return { t, l, w, h };
   }
 
   function getPadding(node) {
@@ -133,8 +133,8 @@ module.exports = function evalDOM() {
 
   function createCommonClass(props) {
     const inlineStyle = ['<style>._{'];
-    for(let prop in props) {
-      inlineStyle.push(`${prop === 'zIndex'? 'z-index': prop}:${props[prop]};`);
+    for (let prop in props) {
+      inlineStyle.push(`${prop === 'zIndex' ? 'z-index' : prop}:${props[prop]};`);
     }
     inlineStyle.push('}.__{top:0%;left:0%;width:100%;}</style>');
     blocks.push(inlineStyle.join(''));
@@ -146,9 +146,9 @@ module.exports = function evalDOM() {
       const sep = agr.indexOf(':');
       const [appName, name, type] = agr.slice(0, sep).split('-');
       const val = agr.slice(sep + 1);
-      params[name] = type === 'function'? eval('(' + val + ')'): 
-                      type === 'object'? JSON.parse(val):
-                      val;
+      params[name] = type === 'function' ? eval('(' + val + ')') :
+        type === 'object' ? JSON.parse(val) :
+          val;
     });
     return params;
   }
@@ -159,12 +159,11 @@ module.exports = function evalDOM() {
     this.includeElement = opts.includeElement;
     this.init = opts.init;
     this.originStyle = {};
-
-    return this instanceof DrawPageframe ? this : new DrawPageframe(opts); 
+    return this instanceof DrawPageframe ? this : new DrawPageframe(opts);
   }
 
   DrawPageframe.prototype = {
-    resetDOM: function() {
+    resetDOM: function () {
       this.init && this.init();
       this.originStyle = {
         scrollTop: window.scrollY,
@@ -173,30 +172,30 @@ module.exports = function evalDOM() {
       window.scrollTo(0, this.offsetTop);
       document.body.style.cssText += 'overflow:hidden!important;';
       drawBlock({
-        height: 100, 
+        height: 100,
         zIndex: 990,
         background: '#fff',
         subClas: true
       });
       this.withHeader();
     },
-    inHeader: function(node) {
+    inHeader: function (node) {
       if (agrs.header) {
         const height = parseInt(agrs.header.height);
         if (height) {
-          const {t, l, w, h} = getRect(node);
+          const { t, l, w, h } = getRect(node);
           return t <= height;
         }
       }
     },
-    withHeader: function() {
+    withHeader: function () {
       if (agrs.header) {
-        const {height, background} = agrs.header;
+        const { height, background } = agrs.header;
         const hHeight = parseInt(height);
         const hBackground = background || agrs.background;
         if (hHeight) {
           drawBlock({
-            height: hPercent(hHeight), 
+            height: hPercent(hHeight),
             zIndex: 999,
             background: hBackground,
             subClas: true
@@ -204,7 +203,35 @@ module.exports = function evalDOM() {
         }
       }
     },
-    showBlocks: function() {
+    showTip(text, {
+      textColor
+    } = {}) {
+      const { body } = document;
+      const div = document.createElement('div');
+      div.id = 'skeleton-tip';
+      div.style.position = 'fixed';
+      div.style.zIndex = 99999;
+      div.style.left = 0;
+      div.style.top = 0;
+      div.style.width = '100%';
+      div.style.background = 'rgba(119,126,146, 0.5)';
+      div.style.color = textColor ? textColor : '#fff';
+      div.style.textAlign = 'center';
+      div.style.padding = '20px';
+      div.style.fontSize = '16px';
+      div.style.boxSizing = 'border-box';
+      div.innerText = text;
+      if (document.getElementById(div.id)) {
+        document.getElementById(div.id).innerHTML = div;
+      } else {
+        body.appendChild(div);
+      }
+    },
+    showBlocks: function () {
+      if (blocks.length <= 2) {
+        this.showTip('界面可能空白无法生成骨架屏')
+        return '';
+      }
       if (blocks.length) {
         const { body } = document;
         const blocksHTML = blocks.join('');
@@ -214,57 +241,58 @@ module.exports = function evalDOM() {
 
         window.scrollTo(0, this.originStyle.scrollTop);
         document.body.style.overflow = this.originStyle.bodyOverflow;
-
+        this.showTip('骨架屏生成成功，即将生成下一个', { textColor: 'green'} )
         return blocksHTML;
       }
     },
 
-    startDraw: function() {
+    startDraw: function () {
       const $this = this;
+      // this.showTip('开始生成骨架屏幕')
       this.resetDOM();
       const nodes = this.rootNode.childNodes;
-      
+
       function deepFindNode(nodes) {
         if (nodes.length) {
-          for(let i = 0; i < nodes.length; i++) {
-            
+          for (let i = 0; i < nodes.length; i++) {
+
             let node = nodes[i];
             if (isHideStyle(node) || (getArgtype($this.includeElement) === 'function' && $this.includeElement(node, drawBlock) == false)) continue;
             let childNodes = node.childNodes;
             let hasChildText = false;
             let background = getStyle(node, 'backgroundImage');
             let backgroundHasurl = background.match(/url\(.+?\)/);
-            
+
             backgroundHasurl = backgroundHasurl && backgroundHasurl.length;
 
-            for(let j = 0; j < childNodes.length; j++) {
+            for (let j = 0; j < childNodes.length; j++) {
               if (childNodes[j].nodeType === 3 && childNodes[j].textContent.trim().length) {
                 hasChildText = true;
                 break;
               }
             }
 
-            if ((includeElement(ELEMENTS, node) || 
+            if ((includeElement(ELEMENTS, node) ||
               backgroundHasurl ||
               (node.nodeType === 3 && node.textContent.trim().length) || hasChildText ||
               isCustomCardBlock(node)) && !$this.inHeader(node)) {
-                const {t, l, w, h} = getRect(node);
-                
-                if (w > 0 && h > 0 && l >= 0 && l < win_w && win_h - t >= 20 && t >= 0) {
-                  const {
-                    paddingTop,
-                    paddingLeft,
-                    paddingBottom,
-                    paddingRight
-                  } = getPadding(node);
-                  drawBlock({
-                    width: wPercent(w - paddingLeft - paddingRight), 
-                    height: hPercent(h - paddingTop - paddingBottom), 
-                    top: hPercent(t + paddingTop), 
-                    left: wPercent(l + paddingLeft),
-                    radius: getStyle(node, 'border-radius')
-                  });
-                }
+              const { t, l, w, h } = getRect(node);
+
+              if (w > 0 && h > 0 && l >= 0 && l < win_w && win_h - t >= 20 && t >= 0) {
+                const {
+                  paddingTop,
+                  paddingLeft,
+                  paddingBottom,
+                  paddingRight
+                } = getPadding(node);
+                drawBlock({
+                  width: wPercent(w - paddingLeft - paddingRight),
+                  height: hPercent(h - paddingTop - paddingBottom),
+                  top: hPercent(t + paddingTop),
+                  left: wPercent(l + paddingLeft),
+                  radius: getStyle(node, 'border-radius')
+                });
+              }
             } else if (childNodes && childNodes.length) {
               if (!hasChildText) {
                 deepFindNode(childNodes);
@@ -279,7 +307,7 @@ module.exports = function evalDOM() {
     }
   }
 
-  return new Promise((resolve, reject) => {   
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       try {
         const html = new DrawPageframe({
@@ -292,6 +320,6 @@ module.exports = function evalDOM() {
         reject(e);
       }
     }, 1000);
-  }); 
+  });
 
 }

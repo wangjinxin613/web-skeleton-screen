@@ -11,7 +11,7 @@ const config = {
   // },
   background: '#eee',
   animation: 'opacity 1s linear infinite;',
-  baseUrl: 'http://192.168.1.4:8082/embed',
+  baseUrl: 'http://192.168.1.4:8081/embed',
   // includeElement: function(node, draw) {
   // 定制某个节点画出来的样子，带上return false
   // if(node.id == 'ui-alert') {

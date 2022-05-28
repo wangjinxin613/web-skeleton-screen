@@ -20,15 +20,20 @@ async function pp({device = 'mobile', headless = true}) {
         await page.setExtraHTTPHeaders(new Map(Object.entries(extraHTTPHeaders)));
       }
       await page.goto(url, {
-        timeout: 2 * 60 * 1000,
+        timeout: 60 * 1000,
         waitUntil: 'networkidle0'
       });
     } catch (e) {
-      log.error('打开一个新页面失败'+ url +'\n');
-      log.error(e.message);
+      // log.error('打开一个新页面失败'+ url +'\n');
+      log.error('\n' + e.message);
     }
     return page;
   }
+  browser.on('disconnected', () => {
+    // log.error('浏览器已关闭' + '\n');
+    process.exit(0);
+  })
+
   return {
     browser,
     openPage

@@ -4,8 +4,10 @@ const cheerio = require('cheerio');
 const ppteer = require('./pp');
 const defaultHtml = require('./default.html');
 const evalScripts = require('./evalDOM');
-var mkdirp = require('mkdirp');
+const mkdirp = require('mkdirp');
 const { log, getAgrType, Spinner, calcText, genArgs } = require('./utils');
+const fse = require('fs-extra')
+const { promisify } = require('util')
 
 const currDir = process.cwd();
 
@@ -98,18 +100,32 @@ class DrawPageStructure {
       }
     }
     if (!fs.existsSync(dirName)) {
-      await mkdirp(dirName);
+      console.log('\n' + '创建目录' + dirName + '\n');
+      await fse.ensureDirSync(dirName)
     }
-    // if(fs.existsSync(filepath)) {
-    //   let fileHTML = fs.readFileSync(filepath);
-    //   let $ = cheerio.load(fileHTML, {
-    //     decodeEntities: false
-    //   });
-    //   $(this.injectSelector).html(html);
-    //   fs.writeFileSync(filepath, $.html('html'));
-    // } else {
-    fs.writeFileSync(filepath, html);
-    // }
+    await promisify(fs.writeFile)(filepath, html, 'utf-8')
+    return Promise.resolve()
+  }
+  // 判断打开的页面是否是错误的，比如404
+  isPageError(page) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const bodyClassName = await page.$eval('#t', (el) => {
+          console.log(el);
+          return el.className;
+        });
+        if (bodyClassName === 'neterror') {
+          resolve(true);
+        }
+        resolve(false);
+      } catch (error) {
+        resolve(false);
+      }
+    })
+  }
+  async pageClose(page) {
+    await page.close();
+    await this.delay(200);
   }
   // 针对每一个页面的配置
   pageDeal(routePath) {
@@ -124,20 +140,33 @@ class DrawPageStructure {
         const pageUrl = this.baseUrl + routePath;
         spinner.text = `正在打开页面：${pageUrl}...`;
         let page = await pp.openPage(pageUrl, this.extraHTTPHeaders);
-        spinner.text = '正在生成骨架屏...';
-        const html = await this.generateSkeletonHTML(page);
-        const resFilePath = path.join(currDir, this.filepath + routePath + '.html');
-        if (this.filepath && html !== '') {
-          spinner.text = `正在写入骨架屏代码到文件：${resFilePath}...`;
-          await this.writeToFilepath(resFilePath, html);
+        await this.delay(500);
+        if ((await this.isPageError(page))) {
+          spinner.clear().fail(`网页打开失败：${pageUrl}`);
+          await this.pageClose(page)
+          resolve(false);
+        } else {
+          spinner.text = '正在生成骨架屏...';
+          const html = await this.generateSkeletonHTML(page);
+          const resFilePath = path.join(currDir, this.filepath + routePath + '.html');
+          if (this.filepath && html !== '') {
+            spinner.text = `正在写入骨架屏代码到文件：${resFilePath}...`;
+            await this.writeToFilepath(resFilePath, html);
+            spinner.clear().succeed(`骨架屏生成成功，路径： ${calcText(resFilePath)}`);
+            if (!this.headless) {
+              await this.delay(2000);
+            }
+            await this.pageClose(page)
+            resolve(true);
+          } else {
+            spinner.clear().warn(`页面空白无法生成骨架屏幕：${routePath}`);
+            if (!this.headless) {
+              await this.delay(2000);
+            }
+            await this.pageClose(page)
+            resolve(false);
+          }
         }
-        spinner.clear().succeed(`skeleton screen has created and output to ${calcText(resFilePath)}`);
-        if (!this.headless) {
-          await this.delay(2000);
-        }
-        await page.close();
-        await this.delay(200);
-        resolve(true);
       } catch (error) {
         console.log(`${routePath}生成骨架屏失败`);
         console.log(error);
@@ -165,9 +194,9 @@ class DrawPageStructure {
         //     })
         //   )
         // } else {
-          for (let route of routes) {
-            await this.pageDeal(route);
-          }
+        for (let route of routes) {
+          await this.pageDeal(route);
+        }
         // }
       }
       console.log('全部任务完成，关闭浏览器');
