@@ -97,7 +97,7 @@ SkeletonPlugin.prototype.apply = function (compiler) {
   }
   if (compiler.hooks) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation) => {
-      const htmlWebpackPluginAfterHtmlProcessing = compilation.hooks.htmlWebpackPluginAfterHtmlProcessin;
+      const htmlWebpackPluginAfterHtmlProcessing = compilation.hooks.htmlWebpackPluginAfterHtmlProcessing;
       if (htmlWebpackPluginAfterHtmlProcessing) {
         htmlWebpackPluginAfterHtmlProcessing.tapAsync(PLUGIN_NAME, (htmlPluginData, callback) => {
           let html = htmlPluginData.html;
@@ -116,7 +116,7 @@ SkeletonPlugin.prototype.apply = function (compiler) {
           callback(null, htmlPluginData)
         })
       } else {
-        this.log.warn('Please introduce HTML webpack plugin in webpack')
+        console.log('Please introduce HTML webpack plugin in webpack')
       }
 
       /// 将骨架屏代码注入到编译后的结果中

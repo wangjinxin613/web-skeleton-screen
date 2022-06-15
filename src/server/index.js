@@ -59,7 +59,7 @@ function listenFileChange(src) {
 }
 
 function start(config) {
-    const { publicPath = '', output: { filepath = 'out' }, src = 'src', listenServerPort = defaultPort } = config;
+    const { publicPath = '', output: { filepath = 'out' } = {}, src = 'src', listenServerPort = defaultPort } = config;
     listenFileChange(src);
     return new Promise((resolve, reject) => {
         async function onRequest(request, response) {
