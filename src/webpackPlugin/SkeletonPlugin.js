@@ -50,9 +50,9 @@ SkeletonPlugin.prototype.startServer = async function () {
  */
 SkeletonPlugin.prototype.getLoadSkeletonJsStr = async function (config) {
   let sourceStr = (await promisify(fs.readFile)(path.join(__dirname, './loadSkeleton.js'), 'utf-8'));
-  const fileDir = config?.output?.filepath ?? 'out';
-  const publicPath = config?.publicPath ?? '';
-  const blackList = config?.blackList ?? [];
+  const fileDir = config.output && config.output.filepath || 'out';
+  const publicPath = config.publicPath || '';
+  const blackList = config.blackList || [];
   sourceStr =
     `window._publicPath = '${publicPath}';
     window._skeletonDir = '${fileDir}';
@@ -68,12 +68,12 @@ SkeletonPlugin.prototype.getLoadSkeletonJsStr = async function (config) {
 }
 
 SkeletonPlugin.prototype.apply = function (compiler) {
-  const { config, staticDir, src = 'src' } = this.options
-  const fileDir = config?.output?.filepath ?? 'out';
-  const publicPath = config?.publicPath ?? '';
+  const { config = {}, staticDir, src = 'src' } = this.options
+  const fileDir = config.output && config.output.filepath || 'out';
+  const publicPath = config.publicPath || '';
   const pathname = path.join(process.cwd(), fileDir);
-
-  const staticGeneration = config?.staticGeneration ?? false;
+  const staticGeneration = config.staticGeneration || false;
+  
   if (process.env.NODE_ENV === 'development') {
     this.startServer();
 
@@ -154,14 +154,14 @@ SkeletonPlugin.prototype.apply = function (compiler) {
     })
 
     compiler.hooks.afterEmit.tap(PLUGIN_NAME, async () => {
-      if (this.options.config?.staticGeneration && process.env.NODE_ENV === 'production') {
+      if (staticGeneration && process.env.NODE_ENV === 'production') {
         await this.outputSkeletonScreen()
       }
     })
 
   } else {
     compiler.plugin('after-emit', async (compilation, done) => {
-      if (this.options.config?.staticGeneration && process.env.NODE_ENV === 'production') {
+      if (staticGeneration && process.env.NODE_ENV === 'production') {
         await this.outputSkeletonScreen()
       }
       done()

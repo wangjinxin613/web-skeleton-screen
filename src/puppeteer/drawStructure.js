@@ -43,7 +43,7 @@ class DrawStructure {
         this.extraHTTPHeaders = extraHTTPHeaders;
         this.includeElement = includeElement || function () { };
         this.init = init || function () { };
-        this.listenServerPort = config?.listenServerPort || 3566;
+        this.listenServerPort = (config && config.listenServerPort) || 3566;
         this.blackList = blackList || [];
         this.urlParams = {
             ...urlParams || {},

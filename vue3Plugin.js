@@ -1,4 +1,3 @@
-// @ts-nocheck
 const axios = require('axios');
 const defaultPollTime = 60000;
 const config = require('../wss.config')
@@ -44,7 +43,7 @@ function findQueryString(paraName, URL) {
 class SkeletonVue {
 
     constructor(app, options) {
-        this.config = options?.config || {};
+        this.config = options && options.config || {};
         this.app = app;
       
         if (process.env.NODE_ENV === 'development') {
@@ -66,9 +65,9 @@ class SkeletonVue {
     async getAllRoutes() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const $router = this.app?.config?.globalProperties?.$router;
+                const $router = (this.app && this.app.config && this.app.config.globalProperties && this.app.config.globalProperties.$router) || [];
                 let routers = [];
-                if (typeof $router?.getRoutes === 'function') {
+                if ($router && typeof $router.getRoutes === 'function') {
                     routers = routers.concat($router.getRoutes())
                 }
                 resolve(routers.map(v => v.path));
@@ -212,7 +211,6 @@ class SkeletonVue {
                             }, 1500)
                         }
                     } else {
-                        // this.log(res?.msg ?? '生成失败');
                     }
                 }).catch(e => {
                     this.log('骨架屏存储失败', e);

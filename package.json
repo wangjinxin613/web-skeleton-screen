@@ -2,7 +2,7 @@
   "name": "web-skeleton-screen",
   "version": "0.0.1",
   "description": "自动生成骨架屏",
-  "main": "src",
+  "main": "src/",
   "bin": {
     "wss": "bin/wss-cli.js"
   },

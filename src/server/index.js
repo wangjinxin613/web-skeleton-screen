@@ -107,7 +107,7 @@ function start(config) {
                     response.write(errorMsg('缺少routes参数', 501))
                 }
             } else if (pathname === 'routes') {
-                response.write(JSON.stringify(allRoutes ?? []))
+                response.write(JSON.stringify(allRoutes || []))
             }  else {
                 response.write("not found");
             }

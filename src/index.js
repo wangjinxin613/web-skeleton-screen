@@ -1,7 +1,5 @@
 const SkeletonPlugin = require('./webpackPlugin/SkeletonPlugin')
 const DrawStructure = require('./puppeteer/drawStructure')
-const vue3Plugin = require('./vue3Plugin');
 
 module.exports.SkeletonPlugin = SkeletonPlugin; // 骨架屏插件
 module.exports.DrawStructure = DrawStructure; // 利用puppeteer生成所有路由的骨架屏
-module.exports.vue3Plugin = vue3Plugin; // vue3插件，如果是vue3项目需要在main.js中引入

@@ -27,10 +27,10 @@ function foreachDirFiles(dir) {
 }
 
 const outputSkeletonScreen = async (originHtml, options, log) => {
-  const { config, staticDir } = options
-  const pathname = path.join(process.cwd(), config?.output?.filepath ?? 'out');
+  const { config = {}, staticDir } = options
+  const pathname = path.join(process.cwd(), config.outpu && config.output.filepath || 'out');
   const files = foreachDirFiles(pathname);
-  const blackList = config?.blackList ?? [];
+  const blackList = config.blackList || [];
   return Promise.all(files.map(async (filePath) => {
     const routeName = filePath.split(pathname)[1];
     if (fs.existsSync(filePath) && routeName.length >= 5) {
