@@ -6,7 +6,6 @@ const path = require('path')
 const fs = require('fs')
 const pkg = require('../package.json')
 const { DrawStructure } = require('../src')
-const utils = require('../src/utils')
 
 const currDir = process.cwd()
 
@@ -30,7 +29,7 @@ const currDir = process.cwd()
 function getDpsconfig(config) {
   const dpsConfFile = path.resolve(currDir, config)
   if(!fs.existsSync(dpsConfFile)) {
-    return utils.log.error(`config file not found`, 1)
+    return console.log(`config file not found`, 1)
   }
   return require(dpsConfFile);
 }

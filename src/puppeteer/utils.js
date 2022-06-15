@@ -1,9 +1,7 @@
 const chalk = require('chalk');
 const ora = require('ora');
-const emoji = require('node-emoji');
 
-const {app} = require('../package.json');
-const appName = app.alias;
+const appName = 'wss';
 
 const likeLinux =  process.env.TERM === 'cygwin' || process.platform !== 'win32';
 
@@ -66,15 +64,11 @@ function Spinner(color) {
   return spinner;
 }
 
-const emoji_get = emoji.get.bind(emoji);
-emoji.get = function() {
-  return !likeLinux? '·': emoji_get.apply(emoji, arguments);
-}
+
 
 exports.log = log;
 exports.calcText = calcText;
 exports.getAgrType = getAgrType;
 exports.Spinner = Spinner;
-exports.emoji = emoji;
 exports.genArgs = genArgs;
 

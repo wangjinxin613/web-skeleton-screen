@@ -1,10 +1,10 @@
 const ppteer = require('fast-install-puppeteer');
-const { log, getAgrType } = require('./utils');
+const { log, getAgrType } = require('./utils.js');
 
 const devices = {
-  mobile: [375, 667, 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'],
-  ipad: [1024, 1366, 'Mozilla/5.0 (iPad; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1'],
-  pc: [1200, 1000, 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1']
+  mobile: [375, 667, 'Mozilla/5.0 (Mac; CPU Mac OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'],
+  ipad: [1024, 1366, 'Mozilla/5.0 (Mac; CPU OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1'],
+  pc: [1200, 1000, 'Mozilla/5.0 (Mac; CPU Mac OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1']
 };
 
 async function pp({ device = 'mobile', headless = true }) {
@@ -35,8 +35,7 @@ async function pp({ device = 'mobile', headless = true }) {
         clearTimeout(timer);
         resolve(page);
       } catch (e) {
-        // log.error('打开一个新页面失败'+ url +'\n');
-        log.error('\n' + e.message);
+        log.error('\n' + e.message + ' url：' + url);
         resolve(page)
       }
     })
