@@ -450,8 +450,11 @@ module.exports = function evalDOM() {
     // 判读俩个元素之间知否有相交
     blockIntersect(blockStyle, compareBlockStyle) {
       const blockMerge = agrs.blockMerge;
-      const maxX = blockMerge.maxX ? blockMerge.maxX : 0;
-      const maxY = blockMerge.maxY ? blockMerge.maxY : 0;
+      let maxX = blockMerge.maxX ? blockMerge.maxX : 0;
+      let maxY = blockMerge.maxY ? blockMerge.maxY : 0;
+      // 为了避免误差，maxX和maxY的最小值为0.5
+      maxX = maxX < 0.5 ? 0.5 : maxX;
+      maxY = maxY < 0.5 ? 0.5 : maxY;
       const blockMax = this.maxSize(blockStyle);
       const compareBlockMax = this.maxSize(compareBlockStyle);
       const blockArea = blockStyle.realWidth * blockStyle.realHeight;
