@@ -2,9 +2,9 @@
 
 ### 如何使用该插件
 
-1. 安装插件
+#### 1. 安装插件
 
-2. 接入webpack插件
+#### 2. 接入webpack插件
 
 ```js
 // vue.config.js
@@ -24,7 +24,7 @@ module.exports = {
 }
 ```
 
-3. 接入vue3插件
+#### 3. 接入vue3插件
 
 ```js
 // src/main.js
@@ -33,7 +33,7 @@ import vue3Plugin from 'web-skeleton-screen/vue3Plugin';
 app.use(vue3Plugin, require('../wss.config.js')); // 参数为配置文件的内容，必须要传入
 ```
 
-4. 根目录创建配置文件
+#### 4. 根目录创建配置文件
 
 ```js
 // wss.config.js
@@ -121,7 +121,7 @@ const config = {
 module.exports = config;
 ```
 
-5. 如果需要全局生成命令，可在package.json中加一条命令配置，运行该命令可以一次性生成所有路由的骨架屏
+#### 5. 如果需要全局生成命令，可在package.json中加一条命令配置，运行该命令可以一次性生成所有路由的骨架屏
 
 ```json
 {
