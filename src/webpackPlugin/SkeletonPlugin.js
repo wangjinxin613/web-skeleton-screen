@@ -73,7 +73,7 @@ SkeletonPlugin.prototype.apply = function (compiler) {
   const publicPath = config.publicPath || '';
   const pathname = path.join(process.cwd(), fileDir);
   const staticGeneration = config.staticGeneration || false;
-  
+
   if (process.env.NODE_ENV === 'development') {
     this.startServer();
 

@@ -3,24 +3,24 @@ const ora = require('ora');
 
 const appName = 'wss';
 
-const likeLinux =  process.env.TERM === 'cygwin' || process.platform !== 'win32';
+const likeLinux = process.env.TERM === 'cygwin' || process.platform !== 'win32';
 
 const genArgs = {
   // {name: {type, value}}
   // appName-name-type:value
   prefixName: `${appName}-`,
   create(args) {
-    if(getAgrType(args) !== 'object') return;
+    if (getAgrType(args) !== 'object') return;
     return Object.keys(args).map(item => {
-      const {type, value} = args[item];
-      return `${this.prefixName + item }-${type}:${value}`;
+      const { type, value } = args[item];
+      return `${this.prefixName + item}-${type}:${value}`;
     });
   }
 }
 
 function calcText(str) {
-  if(str.length > 40) {
-      return str.slice(0, 15) + '...' + (str.match(/([\/\\][^\/\\]+)$/) || ['', ''])[1];
+  if (str.length > 40) {
+    return str.slice(0, 15) + '...' + (str.match(/([\/\\][^\/\\]+)$/) || ['', ''])[1];
   }
   return str;
 }
@@ -29,16 +29,16 @@ function log() {
   console.log.apply(console, arguments);
 }
 
-log.error = function(msg, exit) {
+log.error = function (msg, exit) {
   log(chalk.gray(`[${appName}]:`, chalk.red(msg)));
   exit && process.exit(0);
 }
 
-log.warn = function(msg) {
+log.warn = function (msg) {
   log(chalk.yellow(msg));
 }
 
-log.info = function(msg) {
+log.info = function (msg) {
   log(chalk.greenBright(msg));
 }
 
@@ -47,7 +47,7 @@ function getAgrType(agr) {
 }
 
 function Spinner(color) {
-  let opt = likeLinux? {
+  let opt = likeLinux ? {
     spinner: {
       "interval": 125,
       "frames": [
@@ -58,7 +58,7 @@ function Spinner(color) {
         "∙∙∙"
       ]
     }
-  }: '';
+  } : '';
   const spinner = ora(opt).start();
   spinner.color = color;
   return spinner;
