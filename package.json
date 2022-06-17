@@ -33,6 +33,19 @@
     "prompts": "^1.1.0",
     "mkdirp": "^1.0.4"
   },
+  "peerDependencies": {
+    "chalk": "^2.4.1",
+    "fast-install-puppeteer": "^1.0.5",
+    "fs-extra": "^10.1.0",
+    "commander": "^2.18.0",
+    "cross-env": "^5.2.0",
+    "webpack-log": "^3.0.2",
+    "request": "^2.88.2",
+    "ora": "^3.0.0",
+    "node-emoji": "^1.8.1",
+    "prompts": "^1.1.0",
+    "mkdirp": "^1.0.4"
+  },
   "keywords": [
     "web skeleton screen",
     "skeleton screen",
