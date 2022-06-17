@@ -1,4 +1,4 @@
-const ppteer = require('fast-install-puppeteer');
+const ppteer = require('puppeteer');
 const { log, getAgrType } = require('./utils.js');
 
 const devices = {

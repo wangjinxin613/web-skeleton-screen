@@ -20,12 +20,41 @@ function hideSkeleton() {
   });
 }
 
-window.addEventListener('load', function () {
-  const timer = setTimeout(() => {
-    hideSkeleton();
-    timer && clearTimeout(timer);
-  }, 500);
-});
+function largest_contentful_paint() {
+  return new Promise((c, e) => {
+      if (window.PerformanceObserver) {
+          try {
+              //有些浏览器不支持此类型
+              let po = new PerformanceObserver((entryList) => {
+                  const entries = entryList.getEntries();
+                  for (let i = 0; i < entries.length; i++) {
+                      //为了真实结果,不作处理
+                      po.disconnect();
+                      po = null;
+                      c(void 0);
+                      return;
+                  }
+              });
+              po.observe({ type: 'largest-contentful-paint', buffered: true });
+          } catch (err) {
+              console.error(`LCP supported:`, err);
+              c(void 0);
+          }
+      } else {
+          c(void 0);
+      }
+  });
+}
+
+if (window.Promise) {
+  Promise.all([onload(), largest_contentful_paint()]).then(async () => {
+      hideSkeleton();
+  });
+} else {
+  window.addEventListener('load', function () {
+      setTimeout(hideSkeleton, 100);
+  });
+}
 
 function mixinSkeleton(callback) {
   var filepath = `${getRouter()}`
