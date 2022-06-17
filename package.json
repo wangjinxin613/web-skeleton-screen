@@ -16,21 +16,22 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "chalk": "^2.4.1",
-    "cheerio": "^1.0.0-rc.2",
+    "md5": "^2.3.0",
     "chokidar": "^3.5.3",
-    "commander": "^2.18.0",
-    "cross-env": "^5.2.0",
+    "ip": "^1.1.8"
+  },
+  "devDependencies": {
+    "chalk": "^2.4.1",
     "fast-install-puppeteer": "^1.0.5",
     "fs-extra": "^10.1.0",
-    "ip": "^1.1.8",
-    "md5": "^2.3.0",
-    "mkdirp": "^1.0.4",
-    "node-emoji": "^1.8.1",
-    "ora": "^3.0.0",
-    "prompts": "^1.1.0",
+    "commander": "^2.18.0",
+    "cross-env": "^5.2.0",
+    "webpack-log": "^3.0.2",
     "request": "^2.88.2",
-    "webpack-log": "^3.0.2"
+    "ora": "^3.0.0",
+    "node-emoji": "^1.8.1",
+    "prompts": "^1.1.0",
+    "mkdirp": "^1.0.4"
   },
   "keywords": [
     "web skeleton screen",
