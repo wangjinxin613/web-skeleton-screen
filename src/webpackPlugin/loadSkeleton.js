@@ -56,6 +56,14 @@ if (window.Promise) {
   });
 }
 
+function onload() {
+  return new Promise((c, e) => {
+      window.addEventListener('load', function () {
+          c(void 0);
+      });
+  })
+}
+
 function mixinSkeleton(callback) {
   var filepath = `${getRouter()}`
   if (isBlack(filepath)) {
