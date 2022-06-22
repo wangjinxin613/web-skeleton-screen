@@ -1,3 +1,5 @@
+var skeletonId = '_skeleton';
+
 function showSkeleton() {
   document.querySelectorAll('.__').forEach(el => {
     el.style.display = 'block'
@@ -20,47 +22,24 @@ function hideSkeleton() {
   });
 }
 
-function largest_contentful_paint() {
-  return new Promise((c, e) => {
-      if (window.PerformanceObserver) {
-          try {
-              //有些浏览器不支持此类型
-              let po = new PerformanceObserver((entryList) => {
-                  const entries = entryList.getEntries();
-                  for (let i = 0; i < entries.length; i++) {
-                      //为了真实结果,不作处理
-                      po.disconnect();
-                      po = null;
-                      c(void 0);
-                      return;
-                  }
-              });
-              po.observe({ type: 'largest-contentful-paint', buffered: true });
-          } catch (err) {
-              console.error(`LCP supported:`, err);
-              c(void 0);
-          }
-      } else {
-          c(void 0);
-      }
-  });
-}
 
 if (window.Promise) {
-  Promise.all([onload(), largest_contentful_paint()]).then(async () => {
-      hideSkeleton();
+  Promise.all([onload()]).then(async () => {
+    hideSkeleton();
   });
 } else {
   window.addEventListener('load', function () {
-      setTimeout(hideSkeleton, 100);
+    setTimeout(hideSkeleton, 100);
   });
 }
 
 function onload() {
   return new Promise((c, e) => {
-      window.addEventListener('load', function () {
-          c(void 0);
-      });
+    window.addEventListener('load', function () {
+      setTimeout(() => {
+        c(void 0);
+      }, 100)
+    });
   })
 }
 
@@ -78,6 +57,7 @@ function mixinSkeleton(callback) {
         const html = xhr.responseText;
         if (html && html.indexOf('class="_ __"') !== -1) {
           skeletonHtmlInsert(html)
+          showSkeleton()
           typeof callback === 'function' && callback(html)
         }
       }
@@ -94,7 +74,7 @@ function mixinSkeleton(callback) {
   function skeletonHtmlInsert(html) {
     const div = document.createElement('div');
     const body = document.body;
-    div.id = 'skeleton';
+    div.id = skeletonId;
     div.innerHTML = html;
     if (document.getElementById(div.id)) {
       document.getElementById(div.id).innerHTML = html;
