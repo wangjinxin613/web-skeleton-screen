@@ -1,3 +1,5 @@
 /node_modules
-/example
+/example/vue3
+/example/react
+/example/vue2
 /drawPageStructure.nodeppt

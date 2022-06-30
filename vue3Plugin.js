@@ -35,7 +35,7 @@ class SkeletonVue {
     this.app = app;
     const {
       publicPath = '',
-      output: { filepath = 'out' },
+      output: { filepath = 'out' } = {},
       pollTime = defaultPollTime,
       includeElement,
       blackList = [],
