@@ -57,7 +57,7 @@ function mixinSkeleton(callback) {
         const html = xhr.responseText;
         if (html && html.indexOf('class="_ __"') !== -1) {
           skeletonHtmlInsert(html)
-          showSkeleton()
+          // showSkeleton()
           typeof callback === 'function' && callback(html)
         }
       }
