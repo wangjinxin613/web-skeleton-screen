@@ -7,7 +7,8 @@
     "BASE_BUILD": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
-    "build": "npm run BASE_BUILD"
+    "build": "npm run BASE_BUILD",
+    "skeleton": "wss start"
   },
   "dependencies": {
     "@types/md5": "^2.3.2",
@@ -15,9 +16,10 @@
     "style-resources-loader": "^1.4.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-     "web-skeleton-screen": "file:../../"
+    "web-skeleton-screen": "file:../../"
   },
   "devDependencies": {
+    "@types/node": "^20.12.10",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",

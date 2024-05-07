@@ -4,7 +4,7 @@ const config = {
     injectSelector: '#app'  // 生成的骨架屏插入页面的节点
   },
   headless: true,
-  publicPath: '/embed',
+  publicPath: '/', // 项目路径
   basePort: 8081, // 项目dev环境的端口
   listenServerPort: 3566, // 监听服务端口
   src: 'src', // 源码目录，监听服务需要监听这个目录

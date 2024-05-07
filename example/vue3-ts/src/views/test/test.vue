@@ -1,20 +1,18 @@
 <template>
   <div>
     <h1>Hello World</h1>
-    <h2>Hello World h2</h2>
-    <h3>Hello World h3</h3>
     <p>This is a simple example of a Vue.js component.</p>
-    <!-- <div class="box">
+    <div class="box">
     </div>
     <div class="bg">
-    </div> -->
+    </div>
     <!-- <div class="box box2">
     </div> -->
     <!-- <button>按钮</button> -->
-    <div class="overflow">
+    <!-- <div class="overflow">
       <div class="box-one">1</div>
       <div class="box-two">2</div>
-    </div>
+    </div> -->
     <!-- <div class="box-list">
       <div class="single"></div>
       <div class="single"></div>
@@ -23,8 +21,8 @@
       <div class="single"></div>
       <div class="single"></div>
     </div> -->
-    <div class="test1">test1</div>
-    <div class="test2">test2</div>
+    <!-- <div class="test1">test1</div>
+    <div class="test2">test2</div> -->
   </div>
 </template>
 
@@ -61,6 +59,7 @@
   width: 200px;
   height: 200px;
   overflow: hidden;
+  background: #ccc;
 }
 
 .box-one{

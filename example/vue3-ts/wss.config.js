@@ -6,9 +6,9 @@ const config = {
     headless: true,
     publicPath: '',
     basePort: 8080, // 项目dev环境的端口
-    listenServerPort: 3566, // 监听服务端口
+    listenServerPort: 3568, // 监听服务端口
     src: 'src', // 源码目录，监听服务需要监听这个目录
-    pollTime: 10000, // 多久轮询一次生成新的骨架屏，单位毫秒，默认为60秒
+    pollTime: 5000, // 多久轮询一次生成新的骨架屏，单位毫秒，默认为60秒
     // 是否在打包时将骨架屏代码生成静态的html, 推荐false
     staticGeneration: false,
     // url携带的参数
@@ -16,7 +16,7 @@ const config = {
        
     },
     // 是否将骨架屏幕元素尺寸转换成rem
-    toRem: false,
+    toRem: true,
     /**
      * 俩个相邻或者相交元素合并限制，单位px
      * 骨架节点生成时，会依次比对以前生成的节点，是否存在相交情况
