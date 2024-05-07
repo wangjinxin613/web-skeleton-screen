@@ -1,11 +1,18 @@
 {
   "name": "web-skeleton-screen",
-  "version": "1.0.0",
-  "description": "自动生成骨架屏",
+  "version": "1.0.1",
+  "description": "无侵入式骨架屏全自动生成集成插件",
   "main": "src/",
   "bin": {
     "wss": "bin/wss-cli.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangjinxin613/web-skeleton-screen.git"
+  },
+  "publicConfig": {
+    "registry": "http://registry.npmjs.org/"
+  }, 
   "author": "wangjinxin",
   "scripts": {
     "start": "node ./bin/wss-cli.js start -c wss.config.js"
@@ -38,6 +45,13 @@
     "skeleton screen",
     "skeleton",
     "loading",
-    "prerender"
-  ]
+    "prerender",
+    "骨架屏",
+    "骨架屏自动生成",
+    "无侵入式骨架屏"
+  ],
+  "bugs": {
+    "url": "https://github.com/wangjinxin613/web-skeleton-screen/issues"
+  },
+  "license": "ISC"
 }
